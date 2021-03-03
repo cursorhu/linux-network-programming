@@ -1,0 +1,1 @@
+1.动态加载库(libdl.so)内的dlopen,dlsym,dlclose等函数，支持在程序运行时手动的使用某个动态库的函数

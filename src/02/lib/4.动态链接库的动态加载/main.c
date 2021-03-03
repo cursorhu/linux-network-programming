@@ -1,24 +1,23 @@
-#include "ex02.h"
-#include <dlfcn.h>
+#include <stdio.h>
+#include <dlfcn.h> /*动态加载库的头文件*/
+
 int main(void)
 {
   char src[]="Hello Dymatic";
-  char desc[80];
-
-#if 0  
-  printf("string length is:%d\n",StrLen(src));
-  printf("string desc is:%s\n",StrCopy(desc,src));
-#else
+  /*函数指针变量*/
   int (*pStrLenFun)(char *str);
-  char *(*pStrCopyFun)(char *desc, char *src);
 
   void *phandle = NULL;
   char *perr = NULL;
+  
+  /*打开动态库*/
   phandle = dlopen("./libstr.so", RTLD_LAZY);
   if(!phandle)
   {
     printf("Failed Load library!\n");
   }
+  
+  /*检测错误*/
   perr = dlerror();
   if(perr != NULL)
   {
@@ -26,6 +25,7 @@ int main(void)
     return 0;
   }
   
+  /*获取动态库中的函数StrLen的地址，赋值给函数指针*/
   pStrLenFun = dlsym(phandle, "StrLen");
   perr = dlerror();
   if(perr != NULL)
@@ -34,18 +34,11 @@ int main(void)
     return 0;
   }
 
-  pStrCopyFun = dlsym(phandle, "StrCopy");
-  perr = dlerror();
-  if(perr != NULL)
-  {
-    printf("%s\n",perr);
-    return 0;
-  }
-
-
-  printf("The string is: %s\n",src);
+  /*通过函数指针调用库内函数*/
   printf("the string length is: %d\n",pStrLenFun(src));
-  printf("the string copyed:%s\n",pStrCopyFun(desc,src));
-#endif
+  
+  /*关闭动态库*/
+  dlclose(phandle);
+
   return 0;
 }
