@@ -5,14 +5,10 @@
 
 int main(void)
 {
-	int input = 0;
-	int a = 10, b = 12;
-	float x= 1.23456,y = 9.87654321;
+	int a = 1, b = 1;
 	
-	printf("int a+b IS:%d\n",a+b);
-	printf("int a-b IS:%d\n",a-b);
-	printf("float x+y IS:%f\n",x+y);
-	printf("float x-y IS:%f\n",x-y);
+	printf("int a+b is:%d\n", add_int(a,b));
+	printf("int a-b is:%d\n", sub_int(a,b));
 	
 	return 0;	
 }
